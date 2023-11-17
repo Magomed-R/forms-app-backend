@@ -16,6 +16,7 @@ export default async function (req: any, res: Response, next: NextFunction) {
             return next();
 
         const token = req.headers["authorization"]?.split(" ")[1];
+        if (req.path == '/form/answer' && !token) next() 
         if (!token) return res.sendStatus(401);
 
         const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || "") as JwtPayload;

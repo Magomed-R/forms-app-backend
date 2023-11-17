@@ -50,7 +50,6 @@ authRouter.route("/signup").post(async function (req: Request, res: Response) {
         name: name,
         password: hashedPassword,
         mail: mail,
-        history: [],
         forms: [],
     });
 
