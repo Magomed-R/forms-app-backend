@@ -1,5 +1,5 @@
 {
-    "name": "form-app-backend",
+    "name": "forms-app-backend",
     "version": "1.0.0",
     "description": "",
     "main": "src/dist/app.js",

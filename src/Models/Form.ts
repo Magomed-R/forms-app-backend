@@ -6,7 +6,7 @@ const historySchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "user",
         },
-        correctAnswers: Number,
+        correctAnswers: [Boolean],
     },
     {
         timestamps: true,
@@ -31,6 +31,8 @@ const formSchema = new Schema({
         ref: "user",
     },
     history: [historySchema],
+    cover: String,
+    description: String,
     isOpen: {
         type: Boolean,
         default: true,

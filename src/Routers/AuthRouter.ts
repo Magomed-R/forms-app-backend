@@ -5,6 +5,7 @@ import { Request, Response, Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../Models/User";
+import RequestWithUser from "../Interfaces/RequestWithUser";
 
 const accessTokenKey = process.env.ACCESS_TOKEN_SECRET || "";
 const authRouter = Router();
@@ -13,13 +14,13 @@ interface User {
     _id: string;
     mail: string;
     name: string;
-    password: string;
+    password?: string;
     history: string[];
     forms: string[];
 }
 
-authRouter.route("/").get(function (req, res) {
-    res.sendStatus(200);
+authRouter.get("/", (req: RequestWithUser, res: Response) => {
+    res.json(req.user);
 });
 
 authRouter.route("/login").post(async function (req: Request, res: Response) {
@@ -28,7 +29,7 @@ authRouter.route("/login").post(async function (req: Request, res: Response) {
     let user: User | null = await User.findOne({ mail: mail });
 
     if (!user) return res.sendStatus(401);
-    if (!(await bcrypt.compare(password, user.password))) return res.sendStatus(403);
+    if (!(await bcrypt.compare(password, user.password!))) return res.sendStatus(403);
 
     const data = jwt.sign({ id: user._id }, accessTokenKey);
     res.json(data);

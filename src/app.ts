@@ -14,14 +14,14 @@ import auth from "./Middlewares/auth";
 const app = express();
 const port = process.env.PORT || 3010;
 
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(auth);
 app.use("/form", FormRouter);
 app.use("/auth", AuthRouter);
 app.use("/user", UserRouter);
-
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost" }));
 
 try {
     app.listen(port, () => console.log(chalk.bold.green(`Server started on port ${port}`)));
